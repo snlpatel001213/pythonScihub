@@ -1,0 +1,18 @@
+Adadelta
+One of the inspiration for AdaDelta optimization algorithm invention was to improve AdaGrad weakness of learning rate converging to zero with increase of time. Adadelta mixes two ideas though – first one is to scale learning rate based on historical gradient while taking into account only recent time window – not the whole history, like AdaGrad. And the second one is to use component that serves an acceleration term, that accumulates historical updates (similar to momentum).
+Adam
+Another optimization algorithm that has been present in the neural network community is Adam. Adam might be seen as a generalization of AdaGrad (AdaGrad is Adam with certain parameters choice). Update rule for Adam is determined based on estimation of first (mean) and second raw moment of historical gradients (within recent time window via exponential moving average). These statistics are “corrected” at each iteration (correction is needed because of initialization choice). [original paper]
+Adagrad
+
+Adagrad is a theoretically sound method for learning rate adaptation which has has the advantage of being particularly simple to implement. The learning rate is adapted component-wise, and is given by the square root of sum of squares of the historical, component-wise gradient. Pseudo-code:
+
+
+master_stepsize = 1e-2 #for example
+fudge_factor = 1e-6 #for numerical stability
+historical_grad = 0
+w = randn #initialize w
+while not converged:
+E,grad = computeGrad(w)
+historical_grad += g^2
+adjusted_grad = grad / (fudge_factor + sqrt(historical_grad))
+w = w - master_stepsize*adjusted_grad
